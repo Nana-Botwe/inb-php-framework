@@ -42,3 +42,7 @@ PHP 8.1+ with pdo, mbstring, openssl, curl, fileinfo, gd and zlib. MySQL/MariaDB
 ## Contributing
 
 All improvements happen on the [`community`](../../tree/community) branch; `main` is locked. Share ideas in Discussions, or read [CONTRIBUTING.md](CONTRIBUTING.md) to send a pull request.
+
+## License
+
+Released under the [MIT License](LICENSE).

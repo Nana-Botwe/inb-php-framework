@@ -44,3 +44,7 @@ The automated checks run on every pull request and must pass before it can be me
 - Keep each pull request to one change.
 - Update the pages in `resources/docs` when behaviour changes.
 - Never commit `.env`, API keys, passwords, database dumps or customer data.
+
+## License
+
+By submitting a pull request, you agree that your contribution is released under the [MIT License](LICENSE).

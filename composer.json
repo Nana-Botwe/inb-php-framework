@@ -2,7 +2,7 @@
     "name": "inbitfirm/inb-php-framework",
     "description": "INB PHP Framework \u2014 a secure, Laravel-style PHP framework by INB IT Firm.",
     "type": "project",
-    "license": "proprietary",
+    "license": "MIT",
     "require": {
         "php": ">=8.2",
         "ext-pdo": "*",
