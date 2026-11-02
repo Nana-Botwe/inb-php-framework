@@ -39,7 +39,10 @@ final class DocsTest extends TestCase
     public function test_docs_can_be_disabled(): void
     {
         \Core\Config::set('docs.enabled', false);
-        $this->get('/docs/installation')->assertNotFound();
+        $response = $this->get('/docs/installation');
+        \Core\Config::set('docs.enabled', true);   // config is shared by every test in this process
+
+        $response->assertNotFound();
     }
 
     public function test_markdown_is_rendered_safely(): void

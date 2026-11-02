@@ -1,0 +1,292 @@
+# Existing typing findings, accepted when the project went public. Fix them over time;
+# new code must not add more. Each entry allows a fixed number of one kind of finding in one file.
+parameters:
+    ignoreErrors:
+        -
+            identifier: method.notFound
+            count: 1
+            path: app/Http/Controllers/Api/TokenController.php
+        -
+            identifier: method.notFound
+            count: 5
+            path: app/Http/Controllers/Auth/EmailVerificationController.php
+        -
+            identifier: method.notFound
+            count: 1
+            path: app/Http/Controllers/HomeController.php
+        -
+            identifier: argument.type
+            count: 2
+            path: app/Http/Controllers/PaymentController.php
+        -
+            identifier: method.notFound
+            count: 2
+            path: app/Http/Controllers/ProfileController.php
+        -
+            identifier: method.notFound
+            count: 5
+            path: app/Http/Controllers/TwoFactorController.php
+        -
+            identifier: missingType.iterableValue
+            count: 1
+            path: app/Models/Payment.php
+        -
+            identifier: missingType.iterableValue
+            count: 1
+            path: app/Models/PaymentWebhookEvent.php
+        -
+            identifier: missingType.iterableValue
+            count: 2
+            path: app/Models/User.php
+        -
+            identifier: argument.type
+            count: 2
+            path: app/Services/PaymentService.php
+        -
+            identifier: missingType.iterableValue
+            count: 1
+            path: app/Services/PaymentService.php
+        -
+            identifier: property.nonObject
+            count: 1
+            path: app/Services/PaymentService.php
+        -
+            identifier: missingType.iterableValue
+            count: 1
+            path: core/Auth/Credentials.php
+        -
+            identifier: phpDoc.parseError
+            count: 1
+            path: core/Auth/Gate.php
+        -
+            identifier: missingType.iterableValue
+            count: 2
+            path: core/Auth/PersonalAccessToken.php
+        -
+            identifier: property.notFound
+            count: 1
+            path: core/Auth/PersonalAccessToken.php
+        -
+            identifier: match.unhandled
+            count: 1
+            path: core/Compression/Compressor.php
+        -
+            identifier: missingType.iterableValue
+            count: 1
+            path: core/Console/Command.php
+        -
+            identifier: missingType.iterableValue
+            count: 1
+            path: core/Console/Commands/DbBackupCommand.php
+        -
+            identifier: missingType.iterableValue
+            count: 1
+            path: core/Console/Commands/DbRestoreCommand.php
+        -
+            identifier: missingType.iterableValue
+            count: 1
+            path: core/Console/Commands/DeployVerifyCommand.php
+        -
+            identifier: match.unhandled
+            count: 1
+            path: core/Console/Kernel.php
+        -
+            identifier: missingType.iterableValue
+            count: 1
+            path: core/Console/Output.php
+        -
+            identifier: method.templateTypeNotInParameter
+            count: 1
+            path: core/Container.php
+        -
+            identifier: missingType.iterableValue
+            count: 1
+            path: core/Container.php
+        -
+            identifier: missingType.iterableValue
+            count: 1
+            path: core/Crypt.php
+        -
+            identifier: missingType.iterableValue
+            count: 1
+            path: core/DB.php
+        -
+            identifier: argument.bitmaskNotAllowed
+            count: 1
+            path: core/Database.php
+        -
+            identifier: if.alwaysFalse
+            count: 1
+            path: core/Database.php
+        -
+            identifier: match.unhandled
+            count: 1
+            path: core/Database.php
+        -
+            identifier: missingType.iterableValue
+            count: 1
+            path: core/Database/Blueprint.php
+        -
+            identifier: missingType.iterableValue
+            count: 1
+            path: core/Database/Factory.php
+        -
+            identifier: new.static
+            count: 1
+            path: core/Database/Factory.php
+        -
+            identifier: match.unhandled
+            count: 1
+            path: core/Database/Grammars/Grammar.php
+        -
+            identifier: missingType.iterableValue
+            count: 3
+            path: core/Database/Grammars/Grammar.php
+        -
+            identifier: missingType.iterableValue
+            count: 1
+            path: core/Database/Grammars/MySqlGrammar.php
+        -
+            identifier: missingType.iterableValue
+            count: 1
+            path: core/Database/Grammars/OracleGrammar.php
+        -
+            identifier: missingType.iterableValue
+            count: 2
+            path: core/Database/Grammars/PostgresGrammar.php
+        -
+            identifier: missingType.iterableValue
+            count: 1
+            path: core/Database/Grammars/SQLiteGrammar.php
+        -
+            identifier: missingType.iterableValue
+            count: 2
+            path: core/Database/Grammars/SqlServerGrammar.php
+        -
+            identifier: missingType.iterableValue
+            count: 1
+            path: core/Database/Relations/Relation.php
+        -
+            identifier: missingType.iterableValue
+            count: 2
+            path: core/Database/Schema.php
+        -
+            identifier: return.unusedType
+            count: 2
+            path: core/DatabaseSessionHandler.php
+        -
+            identifier: missingType.iterableValue
+            count: 2
+            path: core/Http/Client.php
+        -
+            identifier: missingType.iterableValue
+            count: 1
+            path: core/Http/UploadedFile.php
+        -
+            identifier: missingType.iterableValue
+            count: 1
+            path: core/Lang.php
+        -
+            identifier: missingType.iterableValue
+            count: 1
+            path: core/Log.php
+        -
+            identifier: missingType.iterableValue
+            count: 2
+            path: core/Mail/Mail.php
+        -
+            identifier: method.notFound
+            count: 1
+            path: core/Middleware/EnsureTwoFactorEnabled.php
+        -
+            identifier: missingType.iterableValue
+            count: 10
+            path: core/Model.php
+        -
+            identifier: new.static
+            count: 2
+            path: core/Model.php
+        -
+            identifier: return.type
+            count: 4
+            path: core/Model.php
+        -
+            identifier: staticClassAccess.privateMethod
+            count: 8
+            path: core/Model.php
+        -
+            identifier: missingType.iterableValue
+            count: 7
+            path: core/QueryBuilder.php
+        -
+            identifier: instanceof.alwaysTrue
+            count: 1
+            path: core/Queue/Queue.php
+        -
+            identifier: missingType.iterableValue
+            count: 1
+            path: core/Request.php
+        -
+            identifier: new.static
+            count: 4
+            path: core/Response.php
+        -
+            identifier: missingType.iterableValue
+            count: 2
+            path: core/Router.php
+        -
+            identifier: trait.unused
+            count: 1
+            path: core/SoftDeletes.php
+        -
+            identifier: missingType.iterableValue
+            count: 1
+            path: core/Storage.php
+        -
+            identifier: missingType.iterableValue
+            count: 1
+            path: core/Support/Collection.php
+        -
+            identifier: new.static
+            count: 18
+            path: core/Support/Collection.php
+        -
+            identifier: missingType.iterableValue
+            count: 1
+            path: core/Support/Fake.php
+        -
+            identifier: missingType.iterableValue
+            count: 1
+            path: core/Support/Paginator.php
+        -
+            identifier: missingType.iterableValue
+            count: 3
+            path: core/Support/Str.php
+        -
+            identifier: missingType.iterableValue
+            count: 10
+            path: core/Testing/TestCase.php
+        -
+            identifier: parameter.notFound
+            count: 1
+            path: core/Testing/TestCase.php
+        -
+            identifier: missingType.iterableValue
+            count: 2
+            path: core/View.php
+        -
+            identifier: phpDoc.parseError
+            count: 2
+            path: core/View.php
+        -
+            identifier: missingType.iterableValue
+            count: 1
+            path: core/View/BladeCompiler.php
+        -
+            identifier: phpDoc.parseError
+            count: 2
+            path: core/View/BladeCompiler.php
+        -
+            identifier: missingType.iterableValue
+            count: 10
+            path: core/helpers.php

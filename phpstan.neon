@@ -1,4 +1,7 @@
 # Static analysis: composer install, then  vendor/bin/phpstan analyse
+includes:
+    - phpstan-baseline.neon
+
 parameters:
     level: 6
     paths:
