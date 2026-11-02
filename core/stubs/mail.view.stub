@@ -1,0 +1,6 @@
+@extends('emails.layout')
+
+@section('content')
+    <h1>Hello!</h1>
+    <p>Write your message here.</p>
+@endsection

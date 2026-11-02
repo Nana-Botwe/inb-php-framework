@@ -1,0 +1,54 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Policies;
+
+use App\Models\{{ model }};
+use App\Models\User;
+
+/**
+ * Who may do what with a {{ model }}. Used automatically by:
+ *   $this->authorize('update', ${{ variable }});   Gate::allows('update', ${{ variable }});   @can('update', ${{ variable }})
+ *
+ * Every method that is missing DENIES access. Guests are denied unless the method accepts ?User.
+ */
+final class {{ class }}
+{
+    /** Runs first: return true to allow everything (e.g. admins), null to continue with the method. */
+    public function before(?User $user, string $ability): ?bool
+    {
+        return $user?->isAdmin() ? true : null;
+    }
+
+    public function viewAny(User $user): bool
+    {
+        return true;
+    }
+
+    public function view(User $user, {{ model }} ${{ variable }}): bool
+    {
+        return $this->owns($user, ${{ variable }});
+    }
+
+    public function create(User $user): bool
+    {
+        return true;
+    }
+
+    public function update(User $user, {{ model }} ${{ variable }}): bool
+    {
+        return $this->owns($user, ${{ variable }});
+    }
+
+    public function delete(User $user, {{ model }} ${{ variable }}): bool
+    {
+        return $this->owns($user, ${{ variable }});
+    }
+
+    /** Ownership check — adjust the column if your table uses another one. */
+    private function owns(User $user, {{ model }} ${{ variable }}): bool
+    {
+        return (int) ${{ variable }}->user_id === (int) $user->id;
+    }
+}

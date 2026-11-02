@@ -1,0 +1,36 @@
+# =============================================================================
+#  User uploads: files here are DATA, never code.
+#  Even if someone manages to upload "shell.php", it can never be executed.
+# =============================================================================
+
+Options -Indexes -ExecCGI -Includes
+
+# 1. Remove every handler (PHP, CGI, SSI) for this folder.
+<FilesMatch ".+">
+    SetHandler none
+    SetHandler default-handler
+</FilesMatch>
+RemoveHandler .php .phtml .php3 .php4 .php5 .php7 .php8 .phps .phar .pht .cgi .pl .py .asp .aspx .jsp .sh .shtml
+RemoveType .php .phtml .php3 .php4 .php5 .php7 .php8 .phps .phar .pht
+
+# 2. Turn the PHP engine off here (PHP 7 and PHP 8 module names).
+<IfModule php_module>
+    php_flag engine off
+</IfModule>
+<IfModule mod_php.c>
+    php_flag engine off
+</IfModule>
+<IfModule mod_php7.c>
+    php_flag engine off
+</IfModule>
+
+# 3. Refuse script-like files outright.
+<FilesMatch "\.(php\d?|phtml|phar|phps|pht|cgi|pl|py|asp|aspx|jsp|sh|shtml|html?|svg|js|htaccess)$">
+    Require all denied
+</FilesMatch>
+
+# 4. Never let the browser guess a different content type.
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set Content-Security-Policy "default-src 'none'; img-src 'self'; style-src 'none'; script-src 'none'; sandbox"
+</IfModule>

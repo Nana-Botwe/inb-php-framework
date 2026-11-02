@@ -1,0 +1,24 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Models;
+
+use Core\Database\HasFactory;
+use Core\Model;
+
+final class {{ class }} extends Model
+{
+    use HasFactory;
+
+    protected static string $table = '{{ table }}';
+
+    /** Columns that may be mass-assigned via create()/update(). */
+    protected static array $fillable = [];
+
+    /** Columns hidden from toArray()/JSON. */
+    protected static array $hidden = [];
+
+    /** Attribute casting, e.g. ['is_active' => 'bool', 'settings' => 'array', 'paid_at' => 'datetime']. */
+    protected static array $casts = [];
+}

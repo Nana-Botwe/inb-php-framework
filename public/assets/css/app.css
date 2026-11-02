@@ -1,0 +1,140 @@
+/*
+ * Your own styles. Bootstrap 5 is loaded from a CDN in resources/views/layouts/*.blade.php.
+ * Note: the Content-Security-Policy blocks inline style="" attributes — put styles here instead.
+ */
+
+:root {
+    --app-brand: #e11d48;
+    --app-brand-2: #f97316;
+    --app-radius: 0.85rem;
+}
+
+.card {
+    border-radius: var(--app-radius);
+}
+
+.btn-primary {
+    --bs-btn-bg: var(--app-brand);
+    --bs-btn-border-color: var(--app-brand);
+    --bs-btn-hover-bg: #be123c;
+    --bs-btn-hover-border-color: #be123c;
+    --bs-btn-active-bg: #9f1239;
+    --bs-btn-active-border-color: #9f1239;
+    --bs-btn-disabled-bg: var(--app-brand);
+    --bs-btn-disabled-border-color: var(--app-brand);
+}
+
+.btn-outline-primary {
+    --bs-btn-color: var(--app-brand);
+    --bs-btn-border-color: var(--app-brand);
+    --bs-btn-hover-bg: var(--app-brand);
+    --bs-btn-hover-border-color: var(--app-brand);
+}
+
+a {
+    color: var(--app-brand);
+}
+
+.nav-link.active {
+    color: var(--app-brand) !important;
+    font-weight: 600;
+}
+
+.guest-body {
+    min-height: 100vh;
+    background:
+        radial-gradient(600px 300px at 10% -10%, rgba(225, 29, 72, .12), transparent 70%),
+        radial-gradient(500px 260px at 100% 0%, rgba(249, 115, 22, .10), transparent 70%),
+        var(--bs-body-bg);
+}
+
+.avatar-initials {
+    display: inline-grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--app-brand), var(--app-brand-2));
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.avatar-initials.avatar-lg {
+    width: 72px;
+    height: 72px;
+    font-size: 24px;
+}
+
+/* ---------------------------------------------------------------- light/dark theme toggle */
+.theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    height: 34px;
+    min-width: 34px;
+    padding: 0 9px;
+    border-radius: 9px;
+    border: 1px solid var(--bs-border-color);
+    background: var(--bs-body-bg);
+    color: var(--bs-body-color);
+    cursor: pointer;
+}
+
+.theme-toggle:hover {
+    border-color: var(--app-brand);
+    color: var(--app-brand);
+}
+
+.theme-toggle:focus-visible {
+    outline: 3px solid rgba(225, 29, 72, .35);
+    outline-offset: 2px;
+}
+
+.theme-toggle .icon-sun,
+.theme-toggle-label {
+    display: none;
+}
+
+[data-theme="dark"] .theme-toggle .icon-sun {
+    display: block;
+}
+
+[data-theme="dark"] .theme-toggle .icon-moon {
+    display: none;
+}
+
+html.theme-switching * {
+    transition: background-color .3s, color .3s, border-color .3s !important;
+}
+
+/* Guest pages (login, register...): toolbar in the top-right corner */
+.guest-toolbar {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 10;
+}
+
+.guest-link {
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    color: var(--bs-secondary-color);
+}
+
+.guest-link:hover {
+    color: var(--app-brand);
+}
+
+[data-bs-theme="dark"] .card {
+    --bs-card-bg: #16161f;
+}
+
+[data-bs-theme="dark"] .bg-body-tertiary {
+    background-color: #12121a !important;
+}

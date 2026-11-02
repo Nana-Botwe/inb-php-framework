@@ -1,0 +1,15 @@
+# systemd timer alternative to cron for "php console schedule:run" (Linux).
+#   sudo cp deploy/my-shop-scheduler.service deploy/my-shop-scheduler.timer /etc/systemd/system/
+#   sudo systemctl enable --now my-shop-scheduler.timer
+#
+# Cron equivalent (crontab -e for www-data):
+#   * * * * * cd /var/www/my-shop/current && php console schedule:run >> /dev/null 2>&1
+
+[Unit]
+Description=INB PHP Framework scheduler (my-shop)
+
+[Service]
+Type=oneshot
+User=www-data
+WorkingDirectory=/var/www/my-shop/current
+ExecStart=/usr/bin/php console schedule:run

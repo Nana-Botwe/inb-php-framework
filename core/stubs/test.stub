@@ -1,0 +1,15 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Tests\Feature;
+
+use Tests\TestCase;
+
+final class {{ class }} extends TestCase
+{
+    public function test_example(): void
+    {
+        $this->get('/')->assertOk();
+    }
+}

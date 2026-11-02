@@ -1,0 +1,21 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Console\Commands;
+
+use Core\Console\Command;
+
+final class {{ class }} extends Command
+{
+    protected string $signature = '{{ name }} {argument?} {--option}';
+
+    protected string $description = 'Describe what this command does';
+
+    public function handle(): int
+    {
+        $this->info('Done.');
+
+        return self::SUCCESS;
+    }
+}

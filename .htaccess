@@ -1,0 +1,25 @@
+# =============================================================================
+#  INB PHP Framework — project root
+#  Used when the project folder sits inside htdocs (XAMPP / shared hosting).
+#  EVERY request is routed into /public, so app/, core/, config/, storage/,
+#  backup/, .env, composer.json ... can never be downloaded or executed.
+#  On a real server, point the domain's document root at /public instead.
+# =============================================================================
+
+Options -Indexes -MultiViews
+ServerSignature Off
+
+# If mod_rewrite is missing, refuse everything rather than expose the source code.
+<IfModule !mod_rewrite.c>
+    Require all denied
+</IfModule>
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
+
+# Belt and braces: never serve these even if rewriting is bypassed.
+<FilesMatch "(^\.|\.(env|ini|log|sql|sqlite|bak|backup|old|orig|swp|dist|lock|ya?ml|stub|sh|bat|ps1)$|^(console|composer\.(json|lock)|package(-lock)?\.json|README\.md)$)">
+    Require all denied
+</FilesMatch>

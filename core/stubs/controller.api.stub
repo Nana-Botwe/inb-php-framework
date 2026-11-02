@@ -1,0 +1,46 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Http\Controllers;
+
+use Core\Request;
+use Core\Response;
+
+/**
+ * API resource controller. Register in routes/api.php with:
+ *   $router->apiResource('{{ uri }}', {{ class }}::class);
+ */
+final class {{ class }} extends Controller
+{
+    public function index(): Response
+    {
+        return $this->json(['data' => []]);
+    }
+
+    public function store(Request $request): Response
+    {
+        $data = $request->validate([
+            // 'name' => 'required|string|max:255',
+        ]);
+
+        return $this->json(['data' => $data], 201);
+    }
+
+    public function show(string $id): Response
+    {
+        return $this->json(['data' => ['id' => $id]]);
+    }
+
+    public function update(Request $request, string $id): Response
+    {
+        $data = $request->validate([]);
+
+        return $this->json(['data' => $data]);
+    }
+
+    public function destroy(string $id): Response
+    {
+        return Response::noContent();
+    }
+}

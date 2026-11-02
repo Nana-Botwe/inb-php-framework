@@ -1,0 +1,21 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Mail;
+
+use Core\Mail\Mailable;
+
+final class {{ class }} extends Mailable
+{
+    public function __construct()
+    {
+    }
+
+    public function build(): void
+    {
+        $this->subject('{{ subject }}')->view('emails.{{ view }}', [
+            //
+        ]);
+    }
+}

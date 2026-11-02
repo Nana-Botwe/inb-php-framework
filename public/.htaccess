@@ -1,0 +1,91 @@
+# =============================================================================
+#  INB PHP Framework — public web root
+#  Only index.php can run. Every request is filtered here first (Apache level)
+#  and again by Core\Firewall (PHP level).
+# =============================================================================
+
+Options -Indexes -MultiViews -ExecCGI
+ServerSignature Off
+AddDefaultCharset UTF-8
+
+# ---------------------------------------------------------------- security headers
+<IfModule mod_headers.c>
+    Header always unset X-Powered-By
+    Header unset X-Powered-By
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=()"
+</IfModule>
+
+# ---------------------------------------------------------------- block sensitive files
+# Hidden files (.env, .git, .htaccess) — except .well-known (SSL certificates).
+<FilesMatch "^\.">
+    Require all denied
+</FilesMatch>
+
+# Backups, configs, logs, databases, scripts, source files.
+<FilesMatch "\.(env|ini|log|sql|sqlite|db|bak|backup|old|orig|save|swp|tmp|dist|lock|ya?ml|conf|config|inc|stub|sh|bat|ps1|py|pl|cgi|phar|phps|pht|phtml|php\d)$">
+    Require all denied
+</FilesMatch>
+
+# Only index.php may be executed as PHP.
+<FilesMatch "\.php$">
+    Require all denied
+</FilesMatch>
+<Files "index.php">
+    Require all granted
+</Files>
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Pass the Authorization header through to PHP (API tokens).
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+    # ------------------------------------------------------------ request filter
+    # Dangerous HTTP methods.
+    RewriteCond %{REQUEST_METHOD} ^(TRACE|TRACK|CONNECT|DEBUG) [NC]
+    RewriteRule .* - [F,L]
+
+    # Known attack tools.
+    RewriteCond %{HTTP_USER_AGENT} (sqlmap|nikto|nmap|masscan|acunetix|nessus|wpscan|dirbuster|gobuster|havij|netsparker|zgrab|nuclei) [NC]
+    RewriteRule .* - [F,L]
+
+    # Path traversal, null bytes and PHP stream wrappers in the URL or query string.
+    RewriteCond %{THE_REQUEST} (\.\./|\.\.%2f|%2e%2e|%00|%0d%0a) [NC,OR]
+    RewriteCond %{QUERY_STRING} (php|phar|data|expect|zip|glob|file|input)(://|%3a%2f%2f) [NC,OR]
+    RewriteCond %{QUERY_STRING} (/etc/passwd|/proc/self|boot\.ini) [NC]
+    RewriteRule .* - [F,L]
+
+    # SQL injection and XSS signatures in the query string.
+    RewriteCond %{QUERY_STRING} (union(\s|%20|\+|/\*.*\*/)+(all(\s|%20|\+)+)?select|information_schema|sleep(\s|%20)*\(|benchmark(\s|%20)*\(|load_file|into(\s|%20|\+)+outfile) [NC,OR]
+    RewriteCond %{QUERY_STRING} (<|%3c)(\s|%20)*(script|iframe|svg|object|embed)|javascript(:|%3a)|vbscript(:|%3a) [NC,OR]
+    RewriteCond %{QUERY_STRING} (base64_decode|eval\(|eval%28|system\(|shell_exec|passthru) [NC]
+    RewriteRule .* - [F,L]
+
+    # Probes for other software (WordPress, phpMyAdmin...) get a fast 404.
+    RewriteRule (^|/)(wp-admin|wp-login\.php|wp-content|wp-includes|xmlrpc\.php|phpmyadmin|pma|myadmin|adminer\.php|cgi-bin)(/|$) - [R=404,L,NC]
+
+    # ------------------------------------------------------------ front controller
+    # Serve existing files (css, js, images) directly.
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^ index.php [L,QSA]
+</IfModule>
+
+# ---------------------------------------------------------------- performance
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/css text/javascript application/javascript application/json image/svg+xml
+</IfModule>
+
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+    ExpiresByType image/svg+xml "access plus 1 month"
+    ExpiresByType image/webp "access plus 1 month"
+    ExpiresByType image/png "access plus 1 month"
+    ExpiresByType image/jpeg "access plus 1 month"
+</IfModule>

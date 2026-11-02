@@ -1,0 +1,127 @@
+name: CI
+
+on:
+  push:
+    branches: [main, community]
+  pull_request:
+
+jobs:
+  tests:
+    name: PHP ${{ matrix.php }} · ${{ matrix.database }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['8.2', '8.3', '8.4']
+        database: [sqlite, mysql, pgsql]
+
+    services:
+      mysql:
+        image: mysql:8.4
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: inb_test
+        ports: ['3306:3306']
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=5
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: inb_test
+        ports: ['5432:5432']
+        options: --health-cmd=pg_isready --health-interval=10s --health-timeout=5s --health-retries=5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: pdo, pdo_sqlite, pdo_mysql, pdo_pgsql, mbstring, openssl, curl, fileinfo, gd, zlib, intl
+          coverage: none
+
+      - name: Prepare environment
+        run: |
+          cp .env.example .env
+          php console key:generate
+
+      - name: Syntax check
+        run: php console lint
+
+      - name: Tests (in-memory SQLite)
+        if: matrix.database == 'sqlite'
+        run: php console test
+
+      - name: Tests (MySQL)
+        if: matrix.database == 'mysql'
+        env:
+          TEST_DB_URL: mysql://root:root@127.0.0.1:3306/inb_test
+        run: php console test
+
+      - name: Tests (PostgreSQL)
+        if: matrix.database == 'pgsql'
+        env:
+          TEST_DB_URL: pgsql://postgres:postgres@127.0.0.1:5432/inb_test
+        run: php console test
+
+  static-analysis:
+    name: PHPStan & code style
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          tools: composer
+          coverage: none
+      - run: composer install --no-interaction --prefer-dist
+      - run: vendor/bin/phpstan analyse --no-progress
+      - run: vendor/bin/php-cs-fixer fix --dry-run --diff
+
+  security:
+    name: Security audit
+    runs-on: ubuntu-latest
+    # Audits a PRODUCTION-style configuration (not the development .env.example): a dedicated database
+    # user with a password, HTTPS APP_URL, SMTP, background queue, alerts and backups. security:check
+    # exits non-zero on any HIGH problem, which fails this job.
+    services:
+      mysql:
+        image: mysql:8.4
+        env:
+          MYSQL_ROOT_PASSWORD: ci-root-unused
+          MYSQL_DATABASE: inb_ci
+          MYSQL_USER: inb_app
+          MYSQL_PASSWORD: ci-Only-Passw0rd-7Hq2
+        ports: ['3306:3306']
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: pdo, pdo_mysql, mbstring, openssl, curl, fileinfo, gd, zlib
+          ini-values: expose_php=Off
+          coverage: none
+
+      - name: Build a production-style .env from .env.production.example
+        run: |
+          cp .env.production.example .env
+          sed -i \
+            -e 's|^APP_URL=.*|APP_URL=https://ci.example.com|' \
+            -e 's|^DB_DATABASE=.*|DB_DATABASE=inb_ci|' \
+            -e 's|^DB_USERNAME=.*|DB_USERNAME=inb_app|' \
+            -e 's|^DB_PASSWORD=.*|DB_PASSWORD=ci-Only-Passw0rd-7Hq2|' \
+            -e 's|^MAIL_HOST=.*|MAIL_HOST=smtp.example.com|' \
+            -e 's|^MAIL_FROM_ADDRESS=.*|MAIL_FROM_ADDRESS=noreply@example.com|' \
+            -e 's|^LOG_ALERT_EMAIL=.*|LOG_ALERT_EMAIL=ops@example.com|' \
+            .env
+          php console key:generate
+
+      - name: Migrations apply cleanly on a fresh production database
+        run: php console migrate
+
+      - name: Configuration audit (fails on any HIGH problem)
+        run: php console security:check
+
+      - name: Deployment verification (no worker/scheduler in CI, so heartbeats are skipped)
+        run: php console deploy:verify --skip-heartbeats --skip-backups

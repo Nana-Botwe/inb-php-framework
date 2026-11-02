@@ -1,0 +1,20 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Database\Factories;
+
+use App\Models\{{ model }};
+use Core\Database\Factory;
+
+final class {{ class }} extends Factory
+{
+    protected string $model = {{ model }}::class;
+
+    public function definition(): array
+    {
+        return [
+            // 'name' => fake()->name(),
+        ];
+    }
+}

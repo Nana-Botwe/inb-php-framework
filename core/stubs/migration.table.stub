@@ -1,0 +1,21 @@
+<?php
+
+use Core\Database\Blueprint;
+use Core\Database\Migration;
+use Core\Database\Schema;
+
+return new class extends Migration {
+    public function up(): void
+    {
+        Schema::table('{{ table }}', function (Blueprint $table) {
+            // $table->string('nickname')->nullable();
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::table('{{ table }}', function (Blueprint $table) {
+            // $table->dropColumn('nickname');
+        });
+    }
+};

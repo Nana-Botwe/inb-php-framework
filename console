@@ -1,0 +1,21 @@
+<?php
+
+declare(strict_types=1);
+
+/*
+|--------------------------------------------------------------------------
+| INB PHP Framework command-line tool
+|--------------------------------------------------------------------------
+|   php console list            all commands
+|   php console migrate         run migrations
+|   php console make:model Post -m
+*/
+
+if (PHP_SAPI !== 'cli') {
+    exit('This script can only be run from the command line.');
+}
+
+/** @var Core\App $app */
+$app = require __DIR__ . '/bootstrap/app.php';
+
+exit((new Core\Console\Kernel($app))->handle($argv));

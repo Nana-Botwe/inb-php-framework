@@ -1,0 +1,19 @@
+# INB PHP Framework — robots.txt
+# Tells search engines what to index. This is NOT security: private pages are
+# protected by authentication, not by being listed (or hidden) here.
+
+User-agent: *
+Allow: /
+Disallow: /dashboard
+Disallow: /profile
+Disallow: /payments
+Disallow: /admin
+Disallow: /api/
+Disallow: /login
+Disallow: /register
+Disallow: /forgot-password
+Disallow: /reset-password
+Disallow: /verify-email
+Disallow: /uploads/
+
+# Sitemap: https://www.example.com/sitemap.xml

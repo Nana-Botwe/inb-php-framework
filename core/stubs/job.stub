@@ -1,0 +1,21 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Jobs;
+
+use Core\Queue\Job;
+
+final class {{ class }} extends Job
+{
+    public int $tries = 3;
+
+    public function __construct()
+    {
+    }
+
+    public function handle(): void
+    {
+        //
+    }
+}

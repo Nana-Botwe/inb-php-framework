@@ -1,0 +1,94 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Http\Controllers;
+
+use App\Models\{{ model }};
+use Core\Auth;
+use Core\Request;
+use Core\Response;
+
+/**
+ * CRUD for {{ model }}. Register the 7 routes (inside the "auth" group) with:
+ *   $router->resource('{{ uri }}', {{ class }}::class);
+ *
+ * Every action is authorized through App\Policies\{{ model }}Policy (php console make:policy {{ model }}Policy --model={{ model }}).
+ * Users only ever see and change their OWN records unless the policy says otherwise.
+ * Remember: list the columns users may set in {{ model }}::$fillable, and validate every one below.
+ */
+final class {{ class }} extends Controller
+{
+    /** GET /{{ uri }} */
+    public function index(): Response
+    {
+        $this->authorize('viewAny', {{ model }}::class);
+
+        ${{ plural }} = {{ model }}::where('user_id', Auth::id())->latest()->paginate(15);
+
+        return $this->view('{{ view }}.index', ['{{ plural }}' => ${{ plural }}]);
+    }
+
+    /** GET /{{ uri }}/create */
+    public function create(): Response
+    {
+        $this->authorize('create', {{ model }}::class);
+
+        return $this->view('{{ view }}.create');
+    }
+
+    /** POST /{{ uri }} */
+    public function store(Request $request): Response
+    {
+        $this->authorize('create', {{ model }}::class);
+
+        $data = $request->validate([
+            // TODO: one rule per fillable column, e.g. 'title' => 'required|string|max:255|no_html',
+        ]);
+
+        ${{ variable }} = new {{ model }}($data);
+        ${{ variable }}->forceFill(['user_id' => Auth::id()])->save();   // owner is set by the server, never by the form
+
+        return $this->redirectToRoute('{{ route }}.show', ['{{ variable }}' => ${{ variable }}])->with('success', 'Created successfully.');
+    }
+
+    /** GET /{{ uri }}/{{{ variable }}} */
+    public function show({{ model }} ${{ variable }}): Response
+    {
+        $this->authorize('view', ${{ variable }});
+
+        return $this->view('{{ view }}.show', ['{{ variable }}' => ${{ variable }}]);
+    }
+
+    /** GET /{{ uri }}/{{{ variable }}}/edit */
+    public function edit({{ model }} ${{ variable }}): Response
+    {
+        $this->authorize('update', ${{ variable }});
+
+        return $this->view('{{ view }}.edit', ['{{ variable }}' => ${{ variable }}]);
+    }
+
+    /** PUT/PATCH /{{ uri }}/{{{ variable }}} */
+    public function update(Request $request, {{ model }} ${{ variable }}): Response
+    {
+        $this->authorize('update', ${{ variable }});
+
+        $data = $request->validate([
+            // TODO: same rules as store()
+        ]);
+
+        ${{ variable }}->update($data);
+
+        return $this->redirectToRoute('{{ route }}.show', ['{{ variable }}' => ${{ variable }}])->with('success', 'Updated successfully.');
+    }
+
+    /** DELETE /{{ uri }}/{{{ variable }}} */
+    public function destroy({{ model }} ${{ variable }}): Response
+    {
+        $this->authorize('delete', ${{ variable }});
+
+        ${{ variable }}->delete();
+
+        return $this->redirectToRoute('{{ route }}.index')->with('success', 'Deleted successfully.');
+    }
+}

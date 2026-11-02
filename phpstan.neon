@@ -1,0 +1,23 @@
+# Static analysis: composer install, then  vendor/bin/phpstan analyse
+parameters:
+    level: 6
+    paths:
+        - app
+        - core
+        - config
+        - routes
+        - database
+    excludePaths:
+        - core/stubs/*
+    bootstrapFiles:
+        - core/helpers.php
+    treatPhpDocTypesAsCertain: false
+    reportUnmatchedIgnoredErrors: false
+    ignoreErrors:
+        # Models expose columns through __get/__set (documented with @property).
+        - '#Access to an undefined property App\\Models\\[A-Za-z]+::\$[a-z_]+#'
+        - '#Access to an undefined property Core\\Model::\$[a-z_]+#'
+        # Route files and console.php receive $router / $console / $schedule from the kernel.
+        - message: '#Variable \$(router|console|schedule) might not be defined#'
+          paths:
+              - routes/*

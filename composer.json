@@ -1,0 +1,50 @@
+{
+    "name": "inbitfirm/inb-php-framework",
+    "description": "INB PHP Framework \u2014 a secure, Laravel-style PHP framework by INB IT Firm.",
+    "type": "project",
+    "license": "proprietary",
+    "require": {
+        "php": ">=8.2",
+        "ext-pdo": "*",
+        "ext-mbstring": "*",
+        "ext-openssl": "*",
+        "ext-curl": "*",
+        "ext-fileinfo": "*",
+        "ext-gd": "*",
+        "ext-zlib": "*"
+    },
+    "suggest": {
+        "ext-zstd": "Faster/stronger upload compression (used automatically when installed)",
+        "ext-brotli": "Stronger upload compression than gzip (used automatically when installed)"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/",
+            "Core\\": "core/",
+            "Database\\Factories\\": "database/factories/",
+            "Database\\Seeders\\": "database/seeders/"
+        },
+        "files": [
+            "core/helpers.php"
+        ]
+    },
+    "scripts": {
+        "serve": "php console serve",
+        "test": "php console test",
+        "lint": "php console lint",
+        "analyse": "phpstan analyse",
+        "format": "php-cs-fixer fix"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^2.1",
+        "friendsofphp/php-cs-fixer": "^3.64"
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    }
+}
