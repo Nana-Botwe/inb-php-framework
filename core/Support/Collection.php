@@ -259,7 +259,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
     public function sum(string|callable|null $key = null): int|float
     {
         return array_sum($key === null ? $this->items : $this->map(
-            static fn ($item) => is_callable($key) ? $key($item) : Arr::get($item, $key)
+            static fn ($item) => is_callable($key) ? $key($item) : Arr::get($item, $key),
         )->all());
     }
 

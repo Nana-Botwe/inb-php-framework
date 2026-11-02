@@ -6,7 +6,6 @@ namespace Core\Auth;
 
 use Core\Auth;
 use Core\Config;
-use Core\Database;
 use Core\Event;
 use Core\Hash;
 use Core\Log;

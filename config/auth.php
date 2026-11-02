@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     // Model used by Core\Auth and the column users log in with.
     'model' => App\Models\User::class,

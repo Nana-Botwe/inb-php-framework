@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     // Backups kept per connection by "php console db:backup".
     'keep' => (int) env('BACKUP_KEEP', 14),

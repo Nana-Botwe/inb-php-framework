@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     // sync (run jobs immediately) | database (jobs table + "php console queue:work")
     'default' => env('QUEUE_CONNECTION', 'sync'),

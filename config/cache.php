@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     // file (one server) | database (several servers share the "cache" table)
     'store' => env('CACHE_STORE', 'file'),

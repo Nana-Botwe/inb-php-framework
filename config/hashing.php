@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     // bcrypt | argon2id (argon2id needs PHP built with Argon2 support)
     'driver' => env('HASH_DRIVER', 'bcrypt'),

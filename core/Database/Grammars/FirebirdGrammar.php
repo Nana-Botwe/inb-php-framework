@@ -37,7 +37,7 @@ class FirebirdGrammar extends Grammar
     /** Firebird has no IF EXISTS for tables before version 4.0. */
     public function compileDropIfExists(string $table): string
     {
-        return "EXECUTE BLOCK AS BEGIN IF (EXISTS(SELECT 1 FROM rdb\$relations WHERE rdb\$relation_name = " . $this->quoteString($table)
+        return 'EXECUTE BLOCK AS BEGIN IF (EXISTS(SELECT 1 FROM rdb$relations WHERE rdb$relation_name = ' . $this->quoteString($table)
             . ")) THEN EXECUTE STATEMENT 'DROP TABLE " . str_replace("'", "''", $this->wrap($table)) . "'; END";
     }
 

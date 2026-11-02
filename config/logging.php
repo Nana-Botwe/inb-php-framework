@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     // Days to keep storage/logs/*.log ("php console log:prune", scheduled daily).
     'retention_days' => (int) env('LOG_RETENTION_DAYS', 30),

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
 |--------------------------------------------------------------------------
 | Web routes (session, CSRF protection)
@@ -12,10 +14,10 @@
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\ConfirmPasswordController;
-use App\Http\Controllers\Auth\TwoFactorChallengeController;
 use App\Http\Controllers\Auth\EmailVerificationController;
 use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\Auth\TwoFactorChallengeController;
 use App\Http\Controllers\DocsController;
 use App\Http\Controllers\FeatureController;
 use App\Http\Controllers\HomeController;

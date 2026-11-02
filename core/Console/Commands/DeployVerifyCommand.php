@@ -133,9 +133,11 @@ final class DeployVerifyCommand extends Command
     private function background(): void
     {
         $scheduler = Heartbeat::age('scheduler');
-        $this->result($scheduler !== null && $scheduler <= 180,
+        $this->result(
+            $scheduler !== null && $scheduler <= 180,
             'Scheduler ran ' . $scheduler . ' s ago',
-            $scheduler === null ? 'The scheduler has never run — add the cron entry / timer from deploy/ (php console schedule:run every minute)' : "The scheduler last ran {$scheduler} s ago — it should run every minute");
+            $scheduler === null ? 'The scheduler has never run — add the cron entry / timer from deploy/ (php console schedule:run every minute)' : "The scheduler last ran {$scheduler} s ago — it should run every minute",
+        );
 
         if (Config::get('queue.default', 'sync') === 'sync') {
             $this->warning('QUEUE_CONNECTION=sync — emails are sent inside web requests; use database + a worker in production');
@@ -144,9 +146,11 @@ final class DeployVerifyCommand extends Command
         }
 
         $queue = Heartbeat::age('queue');
-        $this->result($queue !== null && $queue <= 180,
+        $this->result(
+            $queue !== null && $queue <= 180,
             'A queue worker was alive ' . $queue . ' s ago',
-            $queue === null ? 'No queue worker has ever run — start one with deploy/supervisor-queue.conf (php console queue:work)' : "The queue worker was last seen {$queue} s ago — is it still running?");
+            $queue === null ? 'No queue worker has ever run — start one with deploy/supervisor-queue.conf (php console queue:work)' : "The queue worker was last seen {$queue} s ago — is it still running?",
+        );
 
         try {
             $oldest = DB::table('jobs')->whereNull('reserved_at')->where('available_at', '<=', time())->orderBy('available_at')->first();
@@ -263,9 +267,11 @@ final class DeployVerifyCommand extends Command
             $expected = (int) $main->selectOne('SELECT COUNT(*) AS n FROM migrations')['n'];
             $restored = (int) $target->selectOne('SELECT COUNT(*) AS n FROM migrations')['n'];
             $users = (int) $target->selectOne('SELECT COUNT(*) AS n FROM users')['n'];
-            $this->result($restored > 0 && $restored <= $expected,
+            $this->result(
+                $restored > 0 && $restored <= $expected,
                 "Backup restored into [$connection]: $restored migrations, $users users",
-                "Restored database looks wrong: $restored migrations (live has $expected)");
+                "Restored database looks wrong: $restored migrations (live has $expected)",
+            );
         } catch (Throwable $e) {
             $this->result(false, '', 'The restored database could not be read: ' . $e->getMessage());
         }

@@ -59,7 +59,7 @@ final class Mail
 
     public static function raw(string $to, string $subject, string $text): void
     {
-        $mailable = new class extends Mailable {
+        $mailable = new class () extends Mailable {
             public function build(): void
             {
             }

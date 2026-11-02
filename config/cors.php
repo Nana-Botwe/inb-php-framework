@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     // Front-end origins allowed to call /api from a browser, e.g. 'https://app.inbitfirm.com'.
     // Avoid '*' in production.

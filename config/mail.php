@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     // log (writes to storage/logs/mail.log) | smtp | array (tests)
     'default' => env('MAIL_MAILER', 'log'),

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Core\Database\Relations;
 
 use Closure;
-use Core\Database;
 use Core\Model;
 use Core\QueryBuilder;
 use Core\Support\Collection;

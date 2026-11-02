@@ -6,7 +6,6 @@ namespace Tests\Feature;
 
 use App\Models\Payment as PaymentRecord;
 use App\Models\PaymentWebhookEvent;
-use App\Models\User;
 use App\Services\PaymentService;
 use Core\Auth;
 use Core\Auth\Password;
@@ -368,8 +367,12 @@ final class ReviewFixesTest extends TestCase
 
         // Jobs may not carry objects.
         $this->assertThrows(fn () => \Core\Queue\Payload::encode(new class (new \stdClass()) extends \Core\Queue\Job {
-            public function __construct(public object $thing) {}
-            public function handle(): void {}
+            public function __construct(public object $thing)
+            {
+            }
+            public function handle(): void
+            {
+            }
         }), \InvalidArgumentException::class);
     }
 

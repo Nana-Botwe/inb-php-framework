@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     // Run on every route (the request firewall runs even earlier, in Core\App).
     'global' => [],

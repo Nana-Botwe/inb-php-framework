@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Core\Database\Blueprint;
 use Core\Database\Migration;
 use Core\Database\Schema;
@@ -14,7 +16,7 @@ use Core\DB;
  * A payment that is "success" but has no fulfilled_at is retried by payments:reconcile — so a crash or a
  * failing listener after the payment was marked paid can no longer lose the order.
  */
-return new class extends Migration {
+return new class () extends Migration {
     public function up(): void
     {
         Schema::table('payments', function (Blueprint $table) {

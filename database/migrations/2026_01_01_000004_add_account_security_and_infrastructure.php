@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Core\Database\Blueprint;
 use Core\Database\Migration;
 use Core\Database\Schema;
@@ -10,7 +12,7 @@ use Core\Database\Schema;
  *  - payments: last_checked_at (reconciliation) + payment_webhook_events (persisted, retryable webhooks)
  *  - rate_limits / sessions / cache: shared database stores for multi-server deployments
  */
-return new class extends Migration {
+return new class () extends Migration {
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {

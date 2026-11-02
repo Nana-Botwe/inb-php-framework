@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
 |--------------------------------------------------------------------------
 | API routes — all prefixed with /api, CORS + rate limited (60/min), no sessions/CSRF.

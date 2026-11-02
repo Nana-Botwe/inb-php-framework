@@ -37,12 +37,18 @@ final class DbBackupCommand extends Command
         $file = sprintf('%s/%s-%s.%s', $dir, $db->getName(), date('Ymd-His'), $db->driver() === 'sqlite' ? 'sqlite.gz' : 'sql.gz');
 
         match ($db->driver()) {
-            'mysql' => $this->dump([(string) Config::get('backup.mysqldump', 'mysqldump'), '--single-transaction', '--routines', '--triggers', '--no-tablespaces',
+            'mysql' => $this->dump(
+                [(string) Config::get('backup.mysqldump', 'mysqldump'), '--single-transaction', '--routines', '--triggers', '--no-tablespaces',
                 '--host=' . ($config['host'] ?? '127.0.0.1'), '--port=' . ($config['port'] ?? 3306), '--user=' . ($config['username'] ?? ''), (string) ($config['database'] ?? '')],
-                ['MYSQL_PWD' => $db->passwordForExternalTool()], $file),
-            'pgsql' => $this->dump([(string) Config::get('backup.pg_dump', 'pg_dump'), '--no-owner', '--clean', '--if-exists',
+                ['MYSQL_PWD' => $db->passwordForExternalTool()],
+                $file,
+            ),
+            'pgsql' => $this->dump(
+                [(string) Config::get('backup.pg_dump', 'pg_dump'), '--no-owner', '--clean', '--if-exists',
                 '--host=' . ($config['host'] ?? '127.0.0.1'), '--port=' . ($config['port'] ?? 5432), '--username=' . ($config['username'] ?? ''), (string) ($config['database'] ?? '')],
-                ['PGPASSWORD' => $db->passwordForExternalTool()], $file),
+                ['PGPASSWORD' => $db->passwordForExternalTool()],
+                $file,
+            ),
             'sqlite' => $this->sqlite($db, $file),
             default => throw new RuntimeException('Automatic backups support MySQL, MariaDB, PostgreSQL and SQLite. For ' . $db->driver() . ' use the database\'s own backup tool.'),
         };

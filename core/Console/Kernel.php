@@ -14,8 +14,6 @@ use Core\Database\Migrator;
 use Core\Database\Schema;
 use Core\DB;
 use Core\Mail\Mail;
-use Core\Payments\Payment;
-use Core\Queue\Job;
 use Core\Queue\Queue;
 use Core\Sms\Sms;
 use Core\Support\Str;

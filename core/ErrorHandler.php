@@ -90,7 +90,7 @@ final class ErrorHandler
         } catch (Throwable) {
         }
 
-        $context = $request === null ? '' : sprintf(" [%s %s ip=%s user=%s]", $request->method(), $request->path(), $request->ip(), (string) ($_SESSION['_auth_id'] ?? 'guest'));
+        $context = $request === null ? '' : sprintf(' [%s %s ip=%s user=%s]', $request->method(), $request->path(), $request->ip(), (string) ($_SESSION['_auth_id'] ?? 'guest'));
         $chain = '';
         for ($previous = $e->getPrevious(); $previous !== null; $previous = $previous->getPrevious()) {
             $chain .= "\nCaused by: " . $previous::class . ': ' . $previous->getMessage() . ' in ' . $previous->getFile() . ':' . $previous->getLine();
@@ -122,10 +122,13 @@ final class ErrorHandler
             $key = 'error-alert:' . sha1($e::class . '|' . $e->getFile() . '|' . $e->getLine());
             $minutes = (int) Config::get('logging.alert_throttle_minutes', 15);
             if (RateLimiter::hit($key, $minutes * 60, failOpen: false) === 1) {
-                Mail\Mail::raw($to, '[' . Config::get('app.name', 'App') . '] Server error ' . $id,
+                Mail\Mail::raw(
+                    $to,
+                    '[' . Config::get('app.name', 'App') . '] Server error ' . $id,
                     "A server error happened.\n\nReference: $id\nType: " . $e::class . "\nMessage: " . $e->getMessage()
                     . "\nWhere: " . self::relative($e->getFile()) . ':' . $e->getLine() . "\nTime: " . date('Y-m-d H:i:s T')
-                    . "\n\nSearch storage/logs/app-" . date('Y-m-d') . ".log for $id. Further identical errors are muted for $minutes minutes.");
+                    . "\n\nSearch storage/logs/app-" . date('Y-m-d') . ".log for $id. Further identical errors are muted for $minutes minutes.",
+                );
             }
         } catch (Throwable $alertError) {
             self::writeLog('ERROR', 'Could not send error alert: ' . $alertError->getMessage());
@@ -203,7 +206,13 @@ final class ErrorHandler
             'PHP' => PHP_VERSION . ' (' . PHP_SAPI . ')',
             'Framework' => 'INB PHP Framework ' . App::VERSION,
             'Environment' => (string) Config::get('app.env', '?'),
-            'Database driver' => (static function (): string { try { return Database::instance()->driver(); } catch (Throwable) { return '?'; } })(),
+            'Database driver' => (static function (): string {
+                try {
+                    return Database::instance()->driver();
+                } catch (Throwable) {
+                    return '?';
+                }
+            })(),
             'Memory peak' => round(memory_get_peak_usage(true) / 1048576, 1) . ' MB',
             'Time' => date('Y-m-d H:i:s T'),
         ];

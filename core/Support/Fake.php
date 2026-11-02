@@ -37,16 +37,46 @@ final class Fake
         return $clone;
     }
 
-    public function firstName(): string { return $this->make(__FUNCTION__, fn () => $this->pick(self::FIRST)); }
-    public function lastName(): string { return $this->make(__FUNCTION__, fn () => $this->pick(self::LAST)); }
-    public function name(): string { return $this->make(__FUNCTION__, fn () => $this->pick(self::FIRST) . ' ' . $this->pick(self::LAST)); }
-    public function word(): string { return $this->make(__FUNCTION__, fn () => $this->pick(self::WORDS)); }
-    public function city(): string { return $this->make(__FUNCTION__, fn () => $this->pick(self::CITIES)); }
-    public function company(): string { return $this->make(__FUNCTION__, fn () => $this->pick(self::LAST) . ' ' . $this->pick(['Ltd', 'Group', 'Ventures', 'Enterprise', 'Solutions'])); }
-    public function uuid(): string { return Str::uuid(); }
-    public function boolean(int $chanceOfTrue = 50): bool { return random_int(1, 100) <= $chanceOfTrue; }
-    public function numberBetween(int $min = 0, int $max = 1000): int { return $this->make(__FUNCTION__, fn () => random_int($min, $max)); }
-    public function randomElement(array $items): mixed { return $this->pick($items); }
+    public function firstName(): string
+    {
+        return $this->make(__FUNCTION__, fn () => $this->pick(self::FIRST));
+    }
+    public function lastName(): string
+    {
+        return $this->make(__FUNCTION__, fn () => $this->pick(self::LAST));
+    }
+    public function name(): string
+    {
+        return $this->make(__FUNCTION__, fn () => $this->pick(self::FIRST) . ' ' . $this->pick(self::LAST));
+    }
+    public function word(): string
+    {
+        return $this->make(__FUNCTION__, fn () => $this->pick(self::WORDS));
+    }
+    public function city(): string
+    {
+        return $this->make(__FUNCTION__, fn () => $this->pick(self::CITIES));
+    }
+    public function company(): string
+    {
+        return $this->make(__FUNCTION__, fn () => $this->pick(self::LAST) . ' ' . $this->pick(['Ltd', 'Group', 'Ventures', 'Enterprise', 'Solutions']));
+    }
+    public function uuid(): string
+    {
+        return Str::uuid();
+    }
+    public function boolean(int $chanceOfTrue = 50): bool
+    {
+        return random_int(1, 100) <= $chanceOfTrue;
+    }
+    public function numberBetween(int $min = 0, int $max = 1000): int
+    {
+        return $this->make(__FUNCTION__, fn () => random_int($min, $max));
+    }
+    public function randomElement(array $items): mixed
+    {
+        return $this->pick($items);
+    }
 
     public function safeEmail(): string
     {

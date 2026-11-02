@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     // Hard upload limit in KB (also set upload_max_filesize / post_max_size in php.ini).
     'max_kb' => (int) env('UPLOAD_MAX_KB', 10240),

@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 use Core\Database\Blueprint;
 use Core\Database\Migration;
 use Core\Database\Schema;
 
-return new class extends Migration {
+return new class () extends Migration {
     public function up(): void
     {
         Schema::create('jobs', function (Blueprint $table) {

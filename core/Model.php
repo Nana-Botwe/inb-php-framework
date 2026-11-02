@@ -211,14 +211,38 @@ abstract class Model implements JsonSerializable
 
     // ------------------------------------------------------------------ events
 
-    public static function creating(Closure $callback): void { static::listen('creating', $callback); }
-    public static function created(Closure $callback): void { static::listen('created', $callback); }
-    public static function updating(Closure $callback): void { static::listen('updating', $callback); }
-    public static function updated(Closure $callback): void { static::listen('updated', $callback); }
-    public static function saving(Closure $callback): void { static::listen('saving', $callback); }
-    public static function saved(Closure $callback): void { static::listen('saved', $callback); }
-    public static function deleting(Closure $callback): void { static::listen('deleting', $callback); }
-    public static function deleted(Closure $callback): void { static::listen('deleted', $callback); }
+    public static function creating(Closure $callback): void
+    {
+        static::listen('creating', $callback);
+    }
+    public static function created(Closure $callback): void
+    {
+        static::listen('created', $callback);
+    }
+    public static function updating(Closure $callback): void
+    {
+        static::listen('updating', $callback);
+    }
+    public static function updated(Closure $callback): void
+    {
+        static::listen('updated', $callback);
+    }
+    public static function saving(Closure $callback): void
+    {
+        static::listen('saving', $callback);
+    }
+    public static function saved(Closure $callback): void
+    {
+        static::listen('saved', $callback);
+    }
+    public static function deleting(Closure $callback): void
+    {
+        static::listen('deleting', $callback);
+    }
+    public static function deleted(Closure $callback): void
+    {
+        static::listen('deleted', $callback);
+    }
 
     private static function listen(string $event, Closure $callback): void
     {

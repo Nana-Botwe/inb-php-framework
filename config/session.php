@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     // file (one server) | database (several servers behind a load balancer; table "sessions")
     'driver' => env('SESSION_DRIVER', 'file'),
